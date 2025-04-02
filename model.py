@@ -1,21 +1,24 @@
+# This file contains the ModelInterface class that is responsible 
+# for loading the model and generating responses to input text. 
 
-import os
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from time import time
-from load_model import load_model
+from download_model import download_model
 
 class ModelInterface(object):
+    """Model interface for chatbot."""
 
     def __init__(self):
         self.system_message = """
             You are an AI agent tasked to answer general questions in 
             a simple and short way.    
     """
-        self.path_to_model = load_model()
+        self.path_to_model = download_model()
         self.max_new_tokens = 128
         self.initialize_model()
 
-    def initialize_model(self):
+    def initialize_model(self) -> None:
+        """"Load tokenizer and LM model."""
         start_time = time()
         self.tokenizer = AutoTokenizer.from_pretrained(self.path_to_model)
         tok_time = time()
@@ -31,7 +34,8 @@ class ModelInterface(object):
         print(f"Load model: {round(mod_time-tok_time, 1)} sec.")
 
     @staticmethod
-    def clean_answer(answer, input_text):
+    def clean_answer(answer, input_text) -> str:
+        """Remove unwanted tokens from input text."""
         answer = answer.replace(input_text,"")
         answer = answer.replace("<end_of_turn>", "")
         answer = answer.replace("<bos>", "")
@@ -40,7 +44,8 @@ class ModelInterface(object):
         return answer
 
 
-    def get_message_response(self, input_text):
+    def get_message_response(self, input_text) -> dict:
+        """Return model response for a given input text."""
         start_time = time()
 
         terminators = [

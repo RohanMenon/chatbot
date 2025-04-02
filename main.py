@@ -5,6 +5,7 @@ from model import ModelInterface
 
 
 class Input(BaseModel):
+    """Input text for the model."""
     input_text: str
 
 app = FastAPI()
@@ -25,11 +26,13 @@ app.add_middleware(
 model_interface = ModelInterface()
 
 @app.post("/chat_messages/")
-def chat_messages(input: Input):
+def chat_messages(input: Input) -> dict:
+    """Return a response from the model."""
     agent_response = model_interface.get_message_response(input_text=input.input_text)
     print(agent_response)
     return {"agent": agent_response["response"]}
     
 @app.get("/status/")
-def status():
+def status() -> dict:
+    """Check the status of the API."""
     return{"status": "OK"}

@@ -1,0 +1,7 @@
+streamlit==1.38.0
+transformers
+fastapi
+pydantic
+python-dotenv
+fastapi[standard]
+kagglehub

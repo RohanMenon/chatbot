@@ -1,21 +1,15 @@
-
+# This file contains the code for the chatbot user interface.
 import streamlit as st
-import os
-from io import StringIO
 import requests
 
 
 st.set_page_config(page_title='Gemma2 Chatbot', 
-                    # page_icon = "images/gemma_avatar.jpg",
                     initial_sidebar_state = 'auto')
 
 background_color = "#252740"
 
 
 st.markdown("<h2 style='text-align: center; color: #3184a0;'>Gemma2 Chatbot</h2>", unsafe_allow_html=True)
-
-# with st.sidebar:
-#     st.image("images/gemma.jpg")
 
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [
@@ -38,7 +32,7 @@ def run_query(input_text):
     """
     """
     data={'input_text': input_text}
-    r = requests.post('http://127.0.0.1:8000/chat_messages', json = data)
+    r = requests.post('http://127.0.0.1:8000/chat_messages', json = data, timeout=60)
 
     
     if r.status_code == 200:

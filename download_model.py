@@ -12,7 +12,7 @@ def _set_credentials_json() -> None:
     except FileNotFoundError as e:
         print(f"Error loading Kaggle credentials: {e}")
 
-def load_model() -> str:
+def download_model() -> str:
     """Download and return the path to the model files."""
     _set_credentials_json()
     # Download latest version
